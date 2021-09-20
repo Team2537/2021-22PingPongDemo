@@ -86,11 +86,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    boolean cim;
-    if(cim.getYButtonPressed()){
+    if(xbox.getYButtonPressed()){
       m_Left.set(0.5);
     }
-    if(cim.getBButtonPressed()){
+    if(xbox.getBButtonPressed()){
       m_Left.set(0);
     }
   }
