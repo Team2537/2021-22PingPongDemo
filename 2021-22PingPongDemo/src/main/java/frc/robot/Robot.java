@@ -7,6 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +23,9 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private XboxController xbox; 
+  private Servo servo;
+  private boolean xPressed;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -29,6 +36,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    xbox = new XboxController(1); // Xbox controller on USB port 1
+    servo = new Servo(2);         // Servo connected to roboRIO PWM 2
   }
 
   /**
@@ -78,7 +87,14 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    xPressed = xbox.getXButtonPressed();
+    if(xPressed){
+      servo.set(1);
+      Timer.delay(0.5);
+      servo.set(0);
+    }
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
