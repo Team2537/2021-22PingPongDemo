@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    xbox = new XboxController(1); // Xbox controller on USB port 1
+    xbox = new XboxController(0); // Xbox controller on USB port 0
     servo = new Servo(2);         // Servo connected to roboRIO PWM 2
   }
 
