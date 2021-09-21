@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     xbox = new XboxController(0); // Xbox controller on port 0
-    m_Left = new WPI_TalonSRX(4); // CAN Talon ID 4
+    m_Left = new WPI_TalonSRX(5); // CAN Talon ID 4
   }
 
   /**
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if(xbox.getYButtonPressed()){
-      m_Left.set(0.5);
+      m_Left.set(0.3);
     }
     if(xbox.getBButtonPressed()){
       m_Left.set(0);
