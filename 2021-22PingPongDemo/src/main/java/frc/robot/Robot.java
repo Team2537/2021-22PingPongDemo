@@ -99,7 +99,6 @@ public class Robot extends TimedRobot {
       Timer.delay(0.5);
       servo.set(0);
     }
-  }
 
     if(xbox.getYButtonPressed()){
       m_Left.set(0.3);
