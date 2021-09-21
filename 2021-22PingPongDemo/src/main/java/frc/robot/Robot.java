@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 /**
@@ -23,7 +25,10 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private XboxController xbox; 
+  private Servo servo;
   private WPI_TalonSRX m_Left;
+  private boolean xPressed;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,8 +39,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    xbox = new XboxController(0); // Xbox controller on port 0
-    m_Left = new WPI_TalonSRX(5); // CAN Talon ID 4
+    xbox = new XboxController(0); // Xbox controller on USB port 0
+    servo = new Servo(2);         // Servo connected to roboRIO PWM 2
+    m_Left = new WPI_TalonSRX(5); // CAN Talon ID 5
   }
 
   /**
@@ -86,6 +92,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
+    xPressed = xbox.getXButtonPressed();
+    if(xPressed){
+      servo.set(1);
+      Timer.delay(0.5);
+      servo.set(0);
+    }
+  }
+
     if(xbox.getYButtonPressed()){
       m_Left.set(0.3);
     }
@@ -93,6 +108,7 @@ public class Robot extends TimedRobot {
       m_Left.set(0);
     }
   }
+
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
