@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,7 +26,9 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private XboxController xbox; 
   private Servo servo;
+  private WPI_TalonSRX m_Left;
   private boolean xPressed;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,6 +41,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     xbox = new XboxController(0); // Xbox controller on USB port 0
     servo = new Servo(2);         // Servo connected to roboRIO PWM 2
+    m_Left = new WPI_TalonSRX(5); // CAN Talon ID 5
   }
 
   /**
@@ -88,11 +92,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
     xPressed = xbox.getXButtonPressed();
     if(xPressed){
       servo.set(1);
       Timer.delay(0.5);
       servo.set(0);
+    }
+  }
+
+    if(xbox.getYButtonPressed()){
+      m_Left.set(0.3);
+    }
+    if(xbox.getBButtonPressed()){
+      m_Left.set(0);
     }
   }
 
